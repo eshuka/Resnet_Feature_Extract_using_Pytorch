@@ -1,4 +1,4 @@
-import torch, cv2
+import torch
 from torch.autograd import Variable as V
 from torchvision import transforms as trn
 from PIL import Image
@@ -9,6 +9,8 @@ import torch.backends.cudnn as cudnn
 #f2 = open('test2.txt','w')
 
 model_file =  #model file
+file_name = #label file
+img_name = #test image
 
 model = torch.load(model_file)
 
@@ -18,19 +20,15 @@ centre_crop = trn.Compose([
     trn.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
-file_name = #label file
-
 classes = list()
 with open(file_name) as class_file:
     for line in class_file:
         classes.append(line.strip().split(' ')[0][0:])
 classes = tuple(classes)
 
-img_name = #test image
-
 img = Image.open(img_name)
 img = img.convert('RGB')
-img = img.resize((224, 224), Image.ANTIALIAS)
+img = img.resize((256, 256), Image.ANTIALIAS)
 
 use_gpu = torch.cuda.is_available()
 
