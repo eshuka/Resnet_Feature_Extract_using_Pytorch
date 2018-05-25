@@ -8,15 +8,17 @@ import torch.backends.cudnn as cudnn
 #f1 = open('test1.txt','w')
 #f2 = open('test2.txt','w')
 
-model_file = 'models/resnet-50.pth.tar'
+model_file =  #model file
+
 model = torch.load(model_file)
+
 centre_crop = trn.Compose([
     trn.CenterCrop(224),
     trn.ToTensor(),
     trn.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
-file_name = 'txt/categories.txt'
+file_name = #label file
 
 classes = list()
 with open(file_name) as class_file:
@@ -24,10 +26,9 @@ with open(file_name) as class_file:
         classes.append(line.strip().split(' ')[0][0:])
 classes = tuple(classes)
 
-img_name = 'images/play.jpeg'
+img_name = #test image
 
 img = Image.open(img_name)
-cv2_image = cv2.imread(img_name)
 img = img.convert('RGB')
 img = img.resize((224, 224), Image.ANTIALIAS)
 
@@ -51,6 +52,6 @@ if use_gpu:
 
 extractor.eval()
 
-sample_out = extractor(input_img)
+feature = extractor(input_img)
 
-print(sample_out.size())
+print(feature.size())
